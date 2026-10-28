@@ -79,6 +79,7 @@ public class Main {
     }
 
     // 3. Insert a new student
+
     static void insert() {
         String query =
                 "INSERT INTO student (name, age, gender, aadhar) VALUES (?, ?, ?, ?)";
@@ -111,9 +112,16 @@ public class Main {
 
         } catch (NumberFormatException e) {
             System.out.println("Age must be a valid integer.");
+
         } catch (SQLException e) {
-            System.out.println("Error inserting student.");
-            e.printStackTrace();
+
+            if (e.getErrorCode() == 1062) {
+                System.out.println("Aadhar number is already available!");
+
+            } else {
+                System.out.println("Unable to insert student. Please try again.");
+                e.printStackTrace();
+            }
         }
     }
 
